@@ -24,4 +24,7 @@ public class User {
     @Column(name = "surname")
     private String surname;
 
+    @Column(name = "enabled")
+    private boolean enabled = false;
+
 }
