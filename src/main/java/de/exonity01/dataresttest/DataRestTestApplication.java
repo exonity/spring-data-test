@@ -23,9 +23,11 @@ public class DataRestTestApplication {
 	@Bean
 	InitializingBean sendDatabase() {
 		return () -> {
-			userRepository.save(new User("name1", "surname1"));
-			userRepository.save(new User("name2", "surname2"));
-			userRepository.save(new User("name3", "surname3"));
+			userRepository.save(new User("a", "a"));
+			userRepository.save(new User("a", "b"));
+			userRepository.save(new User("a", "c"));
+			userRepository.save(new User("b", "b"));
+			userRepository.save(new User("c", "c"));
 		};
 	}
 }
