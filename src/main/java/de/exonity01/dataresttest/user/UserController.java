@@ -16,7 +16,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("") public ResponseEntity test(Pageable pageable) {
+    @GetMapping("") public ResponseEntity getAll(Pageable pageable) {
         return ResponseEntity.ok(userService.findAll(pageable));
     }
 
