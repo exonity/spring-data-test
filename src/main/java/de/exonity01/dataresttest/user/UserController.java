@@ -6,7 +6,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -20,21 +20,16 @@ import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
+    private final EntityManager entityManager;
 
-    @Autowired
-    private EntityManager entityManager;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private UserRepository userRepository;
+    private final UserService userService;
 
-    UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserRepository userRepository;
 
     @GetMapping("/old")
     public ResponseEntity getAll(Pageable pageable) {
@@ -53,7 +48,7 @@ public class UserController {
 
 ///////////////////////////////////////
 
-    @GetMapping("new")
+    @GetMapping("/new")
     public ResponseEntity getAll(UserSearchCriteria criteria, Pageable pageable) {
         // QueryFactory
         JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(entityManager);
