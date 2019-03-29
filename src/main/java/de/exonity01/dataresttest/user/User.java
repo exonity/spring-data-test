@@ -2,8 +2,6 @@ package de.exonity01.dataresttest.user;
 
 import lombok.*;
 import org.hibernate.annotations.Formula;
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
 
