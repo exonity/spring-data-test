@@ -1,10 +1,14 @@
 package de.exonity01.dataresttest.user;
 
 import lombok.*;
+import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
 
-@Getter @Setter
+@Getter
+@Setter
 @RequiredArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -23,4 +27,6 @@ public class User {
     @Column(name = "surname")
     private String surname;
 
+    @Formula(value = "concat(name, ' ', surname, ' (', id, ')')")
+    private String fullName;
 }
