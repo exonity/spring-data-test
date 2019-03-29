@@ -2,13 +2,15 @@ package de.exonity01.dataresttest.user;
 
 import lombok.Data;
 
+import java.util.Optional;
+
 @Data
 public class UserSearchCriteria {
 
-    private String name;
+    private Optional<String> name = Optional.empty();
 
-    private String surname;
+    private Optional<String> surname = Optional.empty();
 
-    private String nameSurname;
+    private Optional<String> nameSurname = Optional.empty();
 
 }

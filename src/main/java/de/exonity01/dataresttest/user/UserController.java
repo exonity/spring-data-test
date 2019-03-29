@@ -1,7 +1,9 @@
 package de.exonity01.dataresttest.user;
 
 
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -69,6 +71,7 @@ public class UserController {
         query.limit(pageable.getPageSize());
 
         // Filter
+        query.where(convertCriteriaToPredicate(criteria));
 
         // Order
         convertSortToOrderSpecifier(pageable.getSort());
@@ -80,6 +83,16 @@ public class UserController {
 
         // Serve
         return ResponseEntity.ok(page);
+    }
+
+    private Predicate convertCriteriaToPredicate(UserSearchCriteria criteria) {
+        QUser qUser = QUser.user;
+        BooleanBuilder builder = new BooleanBuilder();
+        criteria.getName().ifPresent(value -> builder.and(qUser.name.contains(value)));
+        criteria.getSurname().ifPresent(value -> builder.and(qUser.surname.contains(value)));
+        StringExpression exp = qUser.name.concat(" ").concat(qUser.surname);
+        criteria.getNameSurname().ifPresent(value -> builder.and(exp.contains(value)));
+        return builder.getValue();
     }
 
     private OrderSpecifier[] convertSortToOrderSpecifier(Sort sort) {

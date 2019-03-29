@@ -1,8 +1,7 @@
 package de.exonity01.dataresttest.user;
 
-import com.querydsl.core.types.Projections;
-import lombok.*;
-import org.hibernate.annotations.Formula;
+import lombok.Data;
+import lombok.NonNull;
 
 import javax.persistence.*;
 
@@ -22,8 +21,5 @@ public class User {
     @NonNull
     @Column(name = "surname")
     private String surname;
-
-    @Formula(value = "concat(name, ' ', surname, ' (', id, ')')")
-    private String fullName;
 
 }

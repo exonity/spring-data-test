@@ -11,6 +11,6 @@ public class UserTableProjection {
 
     private String surname;
 
-    private String nameSurname;
+    private String nameSurnameId;
 
 }
