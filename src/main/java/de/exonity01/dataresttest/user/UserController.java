@@ -57,7 +57,11 @@ public class UserController {
         QUser qUser = QUser.user;
         StringExpression exp = qUser.name.concat(" ").concat(qUser.surname);
         JPAQuery<UserTableProjection> query = jpaQueryFactory
-                .select(Projections.fields(UserTableProjection.class, exp.as("nameSurname")))
+                .select(Projections.fields(
+                        UserTableProjection.class,
+                        exp.as("nameSurname"),
+                        qUser.name,
+                        qUser.surname))
                 .from(qUser);
 
         // Offset and limit
