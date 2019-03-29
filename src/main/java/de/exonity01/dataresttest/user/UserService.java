@@ -14,6 +14,9 @@ public class UserService {
     }
 
     public Page<User> findAll(Pageable pageable) {
+        // Create custom sort for name and surname
+
+
         return userRepository.findAll(pageable);
     }
 }
