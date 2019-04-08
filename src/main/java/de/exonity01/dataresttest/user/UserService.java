@@ -49,7 +49,6 @@ public class UserService {
         query.where(convertCriteriaToPredicate(searchCriteria));
 
         // Order
-        convertSortToOrderSpecifier(pageable.getSort());
         query.orderBy(convertSortToOrderSpecifier(pageable.getSort()));
 
         // Build page
