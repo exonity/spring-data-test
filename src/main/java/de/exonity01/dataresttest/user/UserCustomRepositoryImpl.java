@@ -22,6 +22,21 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
 
     private final EntityManager entityManager;
 
+    public <T> T findById(QBean<T> fields, long id) {
+        // QueryFactory
+        JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(entityManager);
+
+        // Query
+        QUser qUser = QUser.user;
+
+        JPAQuery<T> query = jpaQueryFactory
+                .select(fields)
+                .where(qUser.id.eq(id))
+                .from(qUser);
+
+        return query.fetchOne();
+    }
+
     public <T> Page<T> findAll(QBean<T> fields, Pageable pageable, UserSearchCriteria searchCriteria) {
         // QueryFactory
         JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(entityManager);
@@ -57,10 +72,17 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
     private Predicate convertCriteriaToPredicate(UserSearchCriteria searchCriteria) {
         QUser qUser = QUser.user;
         BooleanBuilder builder = new BooleanBuilder();
+
+        // name criteria
         searchCriteria.getName().ifPresent(value -> builder.and(qUser.name.contains(value)));
+
+        // surname criteria
         searchCriteria.getSurname().ifPresent(value -> builder.and(qUser.surname.contains(value)));
+
+        // name and surname criteria
         StringExpression exp = qUser.name.concat(" ").concat(qUser.surname);
         searchCriteria.getNameSurname().ifPresent(value -> builder.and(exp.contains(value)));
+
         return builder.getValue();
     }
 

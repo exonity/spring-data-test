@@ -3,6 +3,7 @@ package de.exonity01.dataresttest.user;
 import com.querydsl.core.types.QBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
