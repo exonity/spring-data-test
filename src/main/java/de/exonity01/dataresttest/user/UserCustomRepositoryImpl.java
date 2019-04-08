@@ -3,7 +3,7 @@ package de.exonity01.dataresttest.user;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.QBean;
 import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -22,19 +22,15 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
 
     private final EntityManager entityManager;
 
-    public Page<User> findAll(Pageable pageable, UserSearchCriteria searchCriteria) {
+    public <T> Page<T> findAll(QBean<T> fields, Pageable pageable, UserSearchCriteria searchCriteria) {
         // QueryFactory
         JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(entityManager);
 
         // Query
         QUser qUser = QUser.user;
         StringExpression exp = qUser.name.concat(" ").concat(qUser.surname);
-        JPAQuery<UserProjectionTable> query = jpaQueryFactory
-                .select(Projections.fields(
-                        UserProjectionTable.class,
-                        exp.as("nameSurname"),
-                        qUser.name,
-                        qUser.surname))
+        JPAQuery<T> query = jpaQueryFactory
+                .select(fields)
                 .from(qUser);
 
         // Offset and limit
@@ -49,7 +45,7 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
 
         // Build page
         long rowsCount = query.fetchCount();
-        Page page = new PageImpl<>(query.fetch(), pageable, rowsCount);
+        Page<T> page = new PageImpl<>(query.fetch(), pageable, rowsCount);
 
         return page;
     }

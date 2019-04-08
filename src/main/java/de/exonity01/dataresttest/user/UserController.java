@@ -15,7 +15,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("")
-    public Page<User> getAll(Pageable pageable,
+    public Page<UserProjectionTable> getAll(Pageable pageable,
                              UserSearchCriteria searchCriteria) {
         return userService.findAll(pageable, searchCriteria);
     }
