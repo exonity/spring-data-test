@@ -29,9 +29,13 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
         // Query
         QUser qUser = QUser.user;
         StringExpression exp = qUser.name.concat(" ").concat(qUser.surname);
-        JPAQuery<T> query = jpaQueryFactory
-                .select(fields)
-                .from(qUser);
+
+        JPAQuery<T> query = null;
+        if (fields != null) {
+            query = jpaQueryFactory
+                    .select(fields)
+                    .from(qUser);
+        }
 
         // Offset and limit
         query.offset(pageable.getOffset());

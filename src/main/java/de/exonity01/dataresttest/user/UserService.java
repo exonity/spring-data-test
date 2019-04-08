@@ -14,16 +14,27 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public Page<UserProjectionTable> findAll(Pageable pageable, UserSearchCriteria searchCriteria) {
+    public Page<?> findAll(Pageable pageable, UserSearchCriteria searchCriteria, String projectionName) {
         QUser qUser = QUser.user;
-        StringExpression nameSurnameConcatenation = qUser.name.concat(" ").concat(qUser.surname);
-        QBean<UserProjectionTable> projection = Projections.fields(
-                UserProjectionTable.class,
-                nameSurnameConcatenation.as("nameSurname"),
-                qUser.name,
-                qUser.surname);
 
-        return userRepository.findAll(projection, pageable, searchCriteria);
+        if ("table".equals(projectionName)) {
+            StringExpression nameSurnameConcatenation = qUser.name.concat(" ").concat(qUser.surname);
+            QBean<UserProjectionTable> projection = Projections.fields(
+                    UserProjectionTable.class,
+                    nameSurnameConcatenation.as("nameSurname"),
+                    qUser.name,
+                    qUser.surname);
+            return userRepository.findAll(projection, pageable, searchCriteria);
+        }
+        else if ("id".equals(projectionName)) {
+            QBean<UserProjectionId> projection = Projections.fields(
+                    UserProjectionId.class,
+                    qUser.id);
+            return userRepository.findAll(projection, pageable, searchCriteria);
+        }
+
+        return userRepository.findAll(null, pageable, searchCriteria);
+
     }
 
 }
