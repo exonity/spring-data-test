@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NonNull;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -21,5 +22,9 @@ public class User {
     @NonNull
     @Column(name = "surname")
     private String surname;
+
+    @NonNull
+    @Column(name = "date_of_birth")
+    private LocalDate dateOfBirth;
 
 }

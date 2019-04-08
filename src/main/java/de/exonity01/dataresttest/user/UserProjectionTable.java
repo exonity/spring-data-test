@@ -3,7 +3,7 @@ package de.exonity01.dataresttest.user;
 import lombok.Data;
 
 @Data
-public class UserTableProjection {
+public class UserProjectionTable {
 
     private long id;
 

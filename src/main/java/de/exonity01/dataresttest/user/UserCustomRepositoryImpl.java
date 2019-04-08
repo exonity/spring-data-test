@@ -29,9 +29,9 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
         // Query
         QUser qUser = QUser.user;
         StringExpression exp = qUser.name.concat(" ").concat(qUser.surname);
-        JPAQuery<UserTableProjection> query = jpaQueryFactory
+        JPAQuery<UserProjectionTable> query = jpaQueryFactory
                 .select(Projections.fields(
-                        UserTableProjection.class,
+                        UserProjectionTable.class,
                         exp.as("nameSurname"),
                         qUser.name,
                         qUser.surname))
