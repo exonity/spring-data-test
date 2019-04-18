@@ -1,13 +1,16 @@
 package de.exonity01.dataresttest.user;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Data
 @Entity
+@RequiredArgsConstructor
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -22,9 +25,5 @@ public class User {
     @NonNull
     @Column(name = "surname")
     private String surname;
-
-    @NonNull
-    @Column(name = "date_of_birth")
-    private LocalDate dateOfBirth;
 
 }
