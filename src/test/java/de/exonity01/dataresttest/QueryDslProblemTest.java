@@ -1,7 +1,5 @@
 package de.exonity01.dataresttest;
 
-import com.querydsl.core.types.dsl.CaseBuilder;
-import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import de.exonity01.dataresttest.querydslproblem.*;
@@ -45,8 +43,7 @@ public class QueryDslProblemTest {
         marketRow2.setProductFreeText("free text");
         marketRowRepository.save(marketRow2);
 
-        System.out.println(findByProductName("free").size()); // => 1
-        System.out.println(findByProductName2("free").size()); // => 0 ?!?!?! Wieso wird in diesem fall plötzlich .otherwise ausgeführt?
+        System.out.println(findByProductName("free").size());
     }
 
 
@@ -54,30 +51,12 @@ public class QueryDslProblemTest {
         JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(entityManager);
         QMarketRow qMarketRow = QMarketRow.marketRow;
 
-        StringExpression stringExpression = new CaseBuilder()
-                .when(qMarketRow.productFreeText.isNotEmpty())
-                .then(qMarketRow.productFreeText)
-                .otherwise(qMarketRow.id.toString()); // Changes
-
         JPAQuery<MarketRow> query = jpaQueryFactory
                 .selectFrom(qMarketRow)
-                .where(stringExpression.contains(filter));
-
-        return query.fetch();
-    }
-
-    private List<MarketRow> findByProductName2(String filter) {
-        JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(entityManager);
-        QMarketRow qMarketRow = QMarketRow.marketRow;
-
-        StringExpression stringExpression = new CaseBuilder()
-                .when(qMarketRow.productFreeText.isNotEmpty())
-                .then(qMarketRow.productFreeText)
-                .otherwise(qMarketRow.product.productName);
-
-        JPAQuery<MarketRow> query = jpaQueryFactory
-                .selectFrom(qMarketRow)
-                .where(stringExpression.contains(filter)); // Changes
+                .where(
+                        qMarketRow.product.isNotNull().and(qMarketRow.product.productName.contains(filter))
+                                .or(qMarketRow.product.isNull().and(qMarketRow.productFreeText.contains(filter)))
+                );
 
         return query.fetch();
     }
