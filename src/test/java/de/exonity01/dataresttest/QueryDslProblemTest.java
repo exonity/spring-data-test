@@ -1,5 +1,7 @@
 package de.exonity01.dataresttest;
 
+import com.querydsl.core.types.dsl.CaseBuilder;
+import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import de.exonity01.dataresttest.querydslproblem.*;
@@ -49,17 +51,21 @@ public class QueryDslProblemTest {
 
     private List<MarketRow> findByProductName(String filter) {
         JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(entityManager);
+
         QMarketRow qMarketRow = QMarketRow.marketRow;
 
         JPAQuery<MarketRow> query = jpaQueryFactory
                 .selectFrom(qMarketRow)
-                .where(
-                        qMarketRow.productFreeText.isNotNull()
-                                .and(qMarketRow.productFreeText.contains(filter))
-                                .or(qMarketRow.productFreeText.isNull()
-                                        .and(qMarketRow.product.productName.contains(filter)))
-                );
+                .leftJoin(qMarketRow.product) // Left join was the problem
+                .where(buildName(qMarketRow).contains(filter));
 
         return query.fetch();
+    }
+
+    private StringExpression buildName(QMarketRow qMarketRow) {
+        return new CaseBuilder()
+                .when(qMarketRow.product.isNotNull())
+                .then(qMarketRow.product.productName)
+                .otherwise(qMarketRow.productFreeText);
     }
 }
