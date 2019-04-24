@@ -1,16 +1,18 @@
 package de.exonity01.dataresttest.user;
 
-import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.rest.core.config.Projection;
 
-@Data
-public class UserProjectionTable {
+@Projection(name = "table", types = {User.class})
+public interface UserProjectionTable {
 
-    private long id;
+    long getId();
 
-    private String name;
+    String getName();
 
-    private String surname;
+    String getSurname();
 
-    private String nameSurname;
+    @Value("#{target.name}")
+    String getNameSurname();
 
 }

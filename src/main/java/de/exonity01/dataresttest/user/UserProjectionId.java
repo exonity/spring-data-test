@@ -1,10 +1,10 @@
 package de.exonity01.dataresttest.user;
 
-import lombok.Data;
+import org.springframework.data.rest.core.config.Projection;
 
-@Data
-public class UserProjectionId {
+@Projection(name = "id", types = {User.class})
+public interface UserProjectionId {
 
-    private long id;
+    long getId();
 
 }
