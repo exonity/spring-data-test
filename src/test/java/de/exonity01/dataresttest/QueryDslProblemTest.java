@@ -46,7 +46,7 @@ public class QueryDslProblemTest {
         marketRowRepository.save(marketRow2);
 
         System.out.println(findByProductName("free").size()); // => 1
-        System.out.println(findByProductName2("free").size()); // => 0 ?!?!?!
+        System.out.println(findByProductName2("free").size()); // => 0 ?!?!?! Wieso wird in diesem fall plötzlich .otherwise ausgeführt?
     }
 
 
