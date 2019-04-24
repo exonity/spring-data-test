@@ -54,8 +54,10 @@ public class QueryDslProblemTest {
         JPAQuery<MarketRow> query = jpaQueryFactory
                 .selectFrom(qMarketRow)
                 .where(
-                        qMarketRow.product.isNotNull().and(qMarketRow.product.productName.contains(filter))
-                                .or(qMarketRow.product.isNull().and(qMarketRow.productFreeText.contains(filter)))
+                        qMarketRow.productFreeText.isNotNull()
+                                .and(qMarketRow.productFreeText.contains(filter))
+                                .or(qMarketRow.productFreeText.isNull()
+                                        .and(qMarketRow.product.productName.contains(filter)))
                 );
 
         return query.fetch();
