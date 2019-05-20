@@ -1,5 +1,6 @@
 package de.exonity01.dataresttest.user;
 
+import de.exonity01.dataresttest.file.File;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -15,19 +16,17 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private long id;
 
     @NonNull
-    @Column(name = "name")
     private String name;
 
     @NonNull
-    @Column(name = "surname")
     private String surname;
 
     @Embedded
     private Address address;
 
+    private File profileImage;
 
-}
+ }
