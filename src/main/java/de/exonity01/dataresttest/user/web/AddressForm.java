@@ -13,6 +13,7 @@ class AddressForm {
     String street;
 
     @NotNull
+    @Length(min = 1, max = 8)
     String houseNumber;
 
 }
