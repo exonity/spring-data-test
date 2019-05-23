@@ -1,7 +1,5 @@
 package de.exonity01.dataresttest.user;
 
-import de.exonity01.dataresttest.file.File;
-import de.exonity01.dataresttest.file.FileService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,8 +15,6 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    private final @NonNull FileService fileService;
-
     private final @NonNull UserRepository userRepository;
 
     public Optional<User> findById(long id) {
@@ -29,13 +25,16 @@ public class UserService {
         return userRepository.findAll(pageable);
     }
 
-    public void updateProfileImage(User user, Long fileId) {
-        Assert.notNull(user, "User must not be null!");
-        Assert.notNull(fileId, "FileId must not be null!");
+    public User create(UserForm userForm) {
+        Assert.notNull(userForm, "UserForm must not be null!");
 
-        File file = fileService.findById(fileId).orElseThrow(() -> new IllegalStateException("Could not find file."));
+        User user = User.builder()
+                .name(userForm.getName())
+                .surname(userForm.getSurname())
+                .address(userForm.getAddress())
+                .build();
 
-        user.setProfileImage(file);
+        return userRepository.save(user);
     }
 
 }

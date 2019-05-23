@@ -1,17 +1,15 @@
 package de.exonity01.dataresttest.user;
 
-import de.exonity01.dataresttest.file.File;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 
-@Data
 @Entity
-@RequiredArgsConstructor
-@NoArgsConstructor
+@Builder
+@Getter
+// @NoArgsConstructor
 public class User {
 
     @Id
@@ -27,6 +25,4 @@ public class User {
     @Embedded
     private Address address;
 
-    private File profileImage;
-
- }
+}
