@@ -1,15 +1,16 @@
 package de.exonity01.dataresttest.user.web;
 
+import de.exonity01.dataresttest.user.Address;
 import de.exonity01.dataresttest.user.User;
-import de.exonity01.dataresttest.user.UserForm;
 import de.exonity01.dataresttest.user.UserService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
@@ -19,10 +20,19 @@ public class UserController {
     private final @NonNull UserService userService;
 
     @PostMapping("")
-    public User register(UserForm userForm, BindingResult binding) {
-        userForm.validate(binding);
+    public ResponseEntity<User> register(@RequestBody @Valid UserForm userForm) {
+        Address address = Address.builder()
+                .street(userForm.getAddress().getStreet())
+                .houseNumber(userForm.getAddress().getHouseNumber())
+                .build();
 
-        return userService.create(userForm);
+        User user = User.builder()
+                .name(userForm.getName())
+                .surname(userForm.getSurname())
+                .address(address)
+                .build();
+
+        return ResponseEntity.ok(userService.create(user));
     }
 
     @GetMapping("")

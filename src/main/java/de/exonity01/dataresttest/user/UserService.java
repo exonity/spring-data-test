@@ -25,14 +25,8 @@ public class UserService {
         return userRepository.findAll(pageable);
     }
 
-    public User create(UserForm userForm) {
-        Assert.notNull(userForm, "UserForm must not be null!");
-
-        User user = User.builder()
-                .name(userForm.getName())
-                .surname(userForm.getSurname())
-                .address(userForm.getAddress())
-                .build();
+    public User create(User user) {
+        Assert.notNull(user, "UserForm must not be null!");
 
         return userRepository.save(user);
     }
