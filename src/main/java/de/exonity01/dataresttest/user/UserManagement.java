@@ -32,7 +32,7 @@ public class UserManagement {
         return userRepository.save(user);
     }
 
-    public User decativateById(long id) {
+    public User deacativateById(long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException());
         return user.deactivate();
