@@ -41,12 +41,21 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> findById(@PathVariable("id") User user) {
+    public ResponseEntity<User> findById(@PathVariable("id") long id) {
+        User user = userService.findById(id).orElse(null);
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
-
         return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/{id}/deactivate")
+    public ResponseEntity<User> deactivateById(@PathVariable("id") long id) {
+        User user = userService.findById(id).orElse(null);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(user.deactivate());
     }
 
 }

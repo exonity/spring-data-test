@@ -1,11 +1,12 @@
 package de.exonity01.dataresttest.user;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NonNull;
+import lombok.*;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Builder
 @Getter
@@ -21,5 +22,16 @@ public class User {
 
     @Embedded
     private Address address;
+
+    @Builder.Default
+    private boolean active = true;
+
+    public User deactivate() {
+        Assert.state(active, "User is already deactivated.");
+
+        active = false;
+
+        return this;
+    }
 
 }
