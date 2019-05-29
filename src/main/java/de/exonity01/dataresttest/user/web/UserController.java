@@ -2,7 +2,7 @@ package de.exonity01.dataresttest.user.web;
 
 import de.exonity01.dataresttest.user.Address;
 import de.exonity01.dataresttest.user.User;
-import de.exonity01.dataresttest.user.UserService;
+import de.exonity01.dataresttest.user.UserManagement;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,7 +17,7 @@ import javax.validation.Valid;
 @RequestMapping("/users")
 public class UserController {
 
-    private final @NonNull UserService userService;
+    private final @NonNull UserManagement userManagement;
 
     @PostMapping("")
     public ResponseEntity<User> register(@RequestBody @Valid UserForm userForm) {
@@ -32,17 +32,17 @@ public class UserController {
                 .address(address)
                 .build();
 
-        return ResponseEntity.ok(userService.create(user));
+        return ResponseEntity.ok(userManagement.create(user));
     }
 
     @GetMapping("")
     public Page<User> getAll(Pageable pageable) {
-        return userService.findAll(pageable);
+        return userManagement.findAll(pageable);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<User> findById(@PathVariable("id") long id) {
-        User user = userService.findById(id).orElse(null);
+        User user = userManagement.findById(id).orElse(null);
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
@@ -51,11 +51,7 @@ public class UserController {
 
     @PostMapping("/{id}/deactivate")
     public ResponseEntity<User> deactivateById(@PathVariable("id") long id) {
-        User user = userService.findById(id).orElse(null);
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(user.deactivate());
+        return ResponseEntity.ok(userManagement.decativateById(id));
     }
 
 }

@@ -7,13 +7,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Transactional
 @RequiredArgsConstructor
 @Service
-public class UserService {
+public class UserManagement {
 
     private final @NonNull UserRepository userRepository;
 
@@ -29,6 +30,12 @@ public class UserService {
         Assert.notNull(user, "UserForm must not be null!");
 
         return userRepository.save(user);
+    }
+
+    public User decativateById(long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException());
+        return user.deactivate();
     }
 
 }
