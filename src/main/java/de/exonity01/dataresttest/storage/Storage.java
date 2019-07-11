@@ -2,13 +2,11 @@ package de.exonity01.dataresttest.storage;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.exonity01.dataresttest.core.BaseEntity;
+import de.exonity01.dataresttest.customer.Customer;
 import lombok.*;
 import org.springframework.util.Assert;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @Builder
@@ -18,6 +16,10 @@ import java.util.List;
 @Entity
 @Table(name = "storage")
 public class Storage extends BaseEntity {
+
+    @OneToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
     @OneToMany(mappedBy = "attachedStorage")
     private List<Document> documents;

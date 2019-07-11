@@ -13,5 +13,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "customer")
 public class Customer {
-    
+
+    public boolean isDocumentStorageEnabled() {
+        return true;
+    }
+
 }

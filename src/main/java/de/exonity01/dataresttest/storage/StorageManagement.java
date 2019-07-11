@@ -1,5 +1,6 @@
 package de.exonity01.dataresttest.storage;
 
+import de.exonity01.dataresttest.core.ResourceToByteArrayConverter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,22 +21,21 @@ public class StorageManagement {
 
     private final @NonNull DocumentRepository documentRepository;
 
+    private final @NonNull ResourceToByteArrayConverter resourceToByteArrayConverter;
+
     @Transactional
     public Document createDocumentAndAssignToStorage(Storage storage, Resource fileResource, String filename) {
         Assert.notNull(storage, "Storage must not be null!");
         Assert.notNull(fileResource, "FileContent must not be null!");
         Assert.notNull(filename, "Filename must not be null!");
 
-        byte[] content;
-        try {
-            content = IOUtils.toByteArray(fileResource.getInputStream());
+        if (!storage.getCustomer().isDocumentStorageEnabled()) {
+            throw new CustomerDocumentStorageIsNotEnabledException();
+        }
 
-            if (content.length > maxFileSizeInBytes) {
-                throw new DocumentTooLargeException();
-            }
-        } catch (IOException exception) {
-            log.error("Can't convert InputStream to Resource!", exception);
-            throw new RuntimeException("Can't convert InputStream to Resource!", exception);
+        byte[] content = resourceToByteArrayConverter.convert(fileResource);
+        if (content.length > maxFileSizeInBytes) {
+            throw new DocumentTooLargeException();
         }
 
         Document document = documentRepository.save(Document.builder()

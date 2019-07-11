@@ -1,5 +1,6 @@
 package de.exonity01.dataresttest.storage.web;
 
+import de.exonity01.dataresttest.core.MultipartFileToResourceConverter;
 import de.exonity01.dataresttest.storage.Document;
 import de.exonity01.dataresttest.storage.Storage;
 import de.exonity01.dataresttest.storage.StorageManagement;
@@ -25,6 +26,8 @@ public class StorageController {
 
     private final @NonNull StorageManagement storageManagement;
 
+    private final @NonNull MultipartFileToResourceConverter multipartFileToResourceConverter;
+
     @PostMapping("/{id}/document")
     public ResponseEntity<Document> createDocumentAndAssignToStorage(@PathVariable("id") Storage storage,
                                                                      @RequestParam("file") MultipartFile fileMultipart) {
@@ -32,15 +35,11 @@ public class StorageController {
             return ResponseEntity.notFound().build();
         }
 
-        Resource fileResource;
-        try {
-            fileResource = new InputStreamResource(fileMultipart.getInputStream());
-        } catch (IOException exception) {
-            log.error("Can't convert InputStream to Resource!", exception);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        Resource fileResource = multipartFileToResourceConverter.convert(fileMultipart);
 
         return ok(storageManagement.createDocumentAndAssignToStorage(storage, fileResource, fileMultipart.getOriginalFilename()));
     }
+
+    // Method to show all customer documents is missing
 
 }
