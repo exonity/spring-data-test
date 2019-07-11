@@ -4,20 +4,16 @@ import de.exonity01.dataresttest.core.ResourceToByteArrayConverter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.transaction.Transactional;
-import java.io.IOException;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class StorageManagement {
-
-    private long maxFileSizeInBytes = 1024 * 1024;
 
     private final @NonNull DocumentRepository documentRepository;
 
@@ -34,9 +30,6 @@ public class StorageManagement {
         }
 
         byte[] content = resourceToByteArrayConverter.convert(fileResource);
-        if (content.length > maxFileSizeInBytes) {
-            throw new DocumentTooLargeException();
-        }
 
         Document document = documentRepository.save(Document.builder()
                 .attachedStorage(storage)
