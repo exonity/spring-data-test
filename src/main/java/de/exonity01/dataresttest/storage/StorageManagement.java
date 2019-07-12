@@ -20,7 +20,7 @@ public class StorageManagement {
     private final @NonNull ResourceToByteArrayConverter resourceToByteArrayConverter;
 
     @Transactional
-    public Document createDocumentAndAssignToStorage(
+    public Document createDocumentAndAddToStorage(
             Storage storage,
             String contentType,
             Resource fileResource,

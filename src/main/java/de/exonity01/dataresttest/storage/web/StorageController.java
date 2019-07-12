@@ -32,7 +32,7 @@ public class StorageController {
     private Set<String> STORAGE_ALLOWED_CONTENT_TYPES;
 
     @PostMapping("/{id}/document")
-    public ResponseEntity<Document> createDocumentAndAssignToStorage(@PathVariable("id") Storage storage,
+    public ResponseEntity<Document> createDocumentAndAddToStorage(@PathVariable("id") Storage storage,
                                                                      @RequestParam("file") MultipartFile documentContent) {
         if (storage == null) {
             return ResponseEntity.notFound().build();
@@ -50,7 +50,7 @@ public class StorageController {
 
         return ResponseEntity
                 .ok()
-                .body(storageManagement.createDocumentAndAssignToStorage(
+                .body(storageManagement.createDocumentAndAddToStorage(
                         storage,
                         documentContent.getContentType(),
                         multipartFileToResourceConverter.convert(documentContent),
