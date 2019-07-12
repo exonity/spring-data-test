@@ -1,6 +1,6 @@
 package de.exonity01.dataresttest.storage.web;
 
-import de.exonity01.dataresttest.core.MultipartFileToResourceConverter;
+import de.exonity01.dataresttest.core.converters.MultipartFileToResourceConverter;
 import de.exonity01.dataresttest.storage.Document;
 import de.exonity01.dataresttest.storage.Storage;
 import de.exonity01.dataresttest.storage.StorageManagement;

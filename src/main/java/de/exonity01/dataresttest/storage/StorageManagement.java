@@ -1,6 +1,6 @@
 package de.exonity01.dataresttest.storage;
 
-import de.exonity01.dataresttest.core.ResourceToByteArrayConverter;
+import de.exonity01.dataresttest.core.converters.ResourceToByteArrayConverter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
