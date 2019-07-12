@@ -33,7 +33,7 @@ public class StorageController {
 
     @PostMapping("/{id}/document")
     public ResponseEntity<Document> createDocumentAndAddToStorage(@PathVariable("id") Storage storage,
-                                                                     @RequestParam("file") MultipartFile documentContent) {
+                                                                  @RequestParam("file") MultipartFile documentContent) {
         if (storage == null) {
             return ResponseEntity.notFound().build();
         }
@@ -41,11 +41,13 @@ public class StorageController {
         // Check file size
         if (documentContent.getSize() > STORAGE_ALLOWED_MAX_FILE_SIZE) {
             return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).build();
+            // throw new MaxUploadSizeExceededException(STORAGE_ALLOWED_MAX_FILE_SIZE);
         }
 
         // Check content type
         if (!STORAGE_ALLOWED_CONTENT_TYPES.contains(documentContent.getContentType())) {
             return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).build();
+            // throw new InvalidMimeTypeException(documentContent.getContentType(), "Not allowed!");
         }
 
         return ResponseEntity
