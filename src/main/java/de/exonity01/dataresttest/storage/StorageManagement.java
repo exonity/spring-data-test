@@ -42,6 +42,7 @@ public class StorageManagement {
                 .attachedStorage(storage)
                 .content(content)
                 .contentType(contentType)
+                .fileSize(content.length)
                 .filename(filename)
                 .build());
 

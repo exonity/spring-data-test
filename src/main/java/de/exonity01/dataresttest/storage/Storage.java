@@ -17,6 +17,9 @@ import java.util.List;
 @Table(name = "storage")
 public class Storage extends BaseEntity {
 
+    @Column(name = "used_space_in_bytes")
+    private long usedSpaceInBytes;
+
     @OneToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
@@ -28,6 +31,9 @@ public class Storage extends BaseEntity {
         Assert.notNull(document, "Document must not be null!");
 
         documents.add(document);
+
+        // Update the used space of the storage
+        usedSpaceInBytes += document.getFileSize();
 
         return this;
     }
