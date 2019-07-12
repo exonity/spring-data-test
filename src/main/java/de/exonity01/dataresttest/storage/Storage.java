@@ -24,7 +24,7 @@ public class Storage extends BaseEntity {
     @OneToMany(mappedBy = "attachedStorage")
     private List<Document> documents;
 
-    public Storage attachDocumentToStorage(Document document) {
+    public Storage addDocumentToStorage(Document document) {
         Assert.notNull(document, "Document must not be null!");
 
         documents.add(document);

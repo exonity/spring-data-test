@@ -18,6 +18,9 @@ public class Document extends BaseEntity {
     @JoinColumn(name = "attachedStorageId")
     private Storage attachedStorage;
 
+    @Column(name = "contentType")
+    private String contentType;
+
     @Column(name = "filename")
     private String filename;
 

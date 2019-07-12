@@ -20,11 +20,18 @@ public class StorageManagement {
     private final @NonNull ResourceToByteArrayConverter resourceToByteArrayConverter;
 
     @Transactional
-    public Document createDocumentAndAssignToStorage(Storage storage, Resource fileResource, String filename) {
+    public Document createDocumentAndAssignToStorage(
+            Storage storage,
+            String contentType,
+            Resource fileResource,
+            String filename) {
+
         Assert.notNull(storage, "Storage must not be null!");
         Assert.notNull(fileResource, "FileContent must not be null!");
         Assert.notNull(filename, "Filename must not be null!");
+        Assert.notNull(contentType, "ContentType must not be null!");
 
+        // Check if the customer to which the storage belongs is enabled for using his storage.
         if (!storage.getCustomer().isDocumentStorageEnabled()) {
             throw new CustomerDocumentStorageIsNotEnabledException();
         }
@@ -34,10 +41,11 @@ public class StorageManagement {
         Document document = documentRepository.save(Document.builder()
                 .attachedStorage(storage)
                 .content(content)
+                .contentType(contentType)
                 .filename(filename)
                 .build());
 
-        storage.attachDocumentToStorage(document);
+        storage.addDocumentToStorage(document);
 
         return document;
     }

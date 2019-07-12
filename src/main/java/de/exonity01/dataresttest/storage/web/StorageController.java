@@ -7,13 +7,13 @@ import de.exonity01.dataresttest.storage.StorageManagement;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.Resource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import static org.springframework.http.ResponseEntity.ok;
+import java.util.Set;
 
 @Slf4j
 @RestController
@@ -25,24 +25,35 @@ public class StorageController {
 
     private final @NonNull MultipartFileToResourceConverter multipartFileToResourceConverter;
 
-    private long MAX_DOCUMENT_FILE_SIZE = 1024 * 1024 * 5;
+    @Value("${storage.allowed-max-file-size}")
+    private long STORAGE_ALLOWED_MAX_FILE_SIZE;
+
+    @Value("${storage.allowed_content_types}")
+    private Set<String> STORAGE_ALLOWED_CONTENT_TYPES;
 
     @PostMapping("/{id}/document")
     public ResponseEntity<Document> createDocumentAndAssignToStorage(@PathVariable("id") Storage storage,
-                                                                     @RequestParam("file") MultipartFile fileMultipart) {
+                                                                     @RequestParam("file") MultipartFile documentContent) {
         if (storage == null) {
             return ResponseEntity.notFound().build();
         }
 
-        if (fileMultipart.getSize() > MAX_DOCUMENT_FILE_SIZE) {
+        // Check file size
+        if (documentContent.getSize() > STORAGE_ALLOWED_MAX_FILE_SIZE) {
             return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).build();
         }
 
-        Resource fileResource = multipartFileToResourceConverter.convert(fileMultipart);
+        // Check content type
+        if (!STORAGE_ALLOWED_CONTENT_TYPES.contains(documentContent.getContentType())) {
+            return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).build();
+        }
 
-        return ok(storageManagement.createDocumentAndAssignToStorage(storage, fileResource, fileMultipart.getOriginalFilename()));
+        return ResponseEntity
+                .ok()
+                .body(storageManagement.createDocumentAndAssignToStorage(
+                        storage,
+                        documentContent.getContentType(),
+                        multipartFileToResourceConverter.convert(documentContent),
+                        documentContent.getOriginalFilename()));
     }
-
-    // Method to show all customer documents is missing
-
 }
