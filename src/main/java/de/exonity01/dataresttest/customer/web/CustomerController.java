@@ -29,5 +29,18 @@ public class CustomerController extends BaseController {
                 customerEditDto));
     }
 
+    @PutMapping("/{id}/enable-customer-storage")
+    public ResponseEntity<Customer> enableCustomerStorage(@PathVariable("id") Customer customer) {
+        assertNotNull(customer);
+
+        return ok(customerManagement.enableCustomerStorage(customer));
+    }
+
+    @PutMapping("/{id}/disable-customer-storage")
+    public ResponseEntity<Customer> disableCustomerStorage(@PathVariable("id") Customer customer) {
+        assertNotNull(customer);
+
+        return ok(customerManagement.disableCustomerStorage(customer));
+    }
 
 }

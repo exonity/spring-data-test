@@ -5,6 +5,7 @@ import de.exonity01.dataresttest.customer.web.CustomerEditDto;
 import lombok.*;
 import org.springframework.util.Assert;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.Valid;
@@ -17,12 +18,13 @@ import javax.validation.Valid;
 @Table(name = "customer")
 public class Customer extends BaseEntity {
 
-    public boolean isDocumentStorageEnabled() {
-        return true;
-    }
+    @Column(name = "document_storage_enabled")
+    private boolean documentStorageEnabled;
 
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "surname")
     private String surname;
 
     public Customer edit(@Valid CustomerEditDto customerEditDto) {
@@ -30,6 +32,18 @@ public class Customer extends BaseEntity {
 
         name = customerEditDto.getName();
         surname = customerEditDto.getSurname();
+
+        return this;
+    }
+
+    public Customer enableDocumentStorage() {
+        documentStorageEnabled = true;
+
+        return this;
+    }
+
+    public Customer disableDocumentStorage() {
+        documentStorageEnabled = false;
 
         return this;
     }

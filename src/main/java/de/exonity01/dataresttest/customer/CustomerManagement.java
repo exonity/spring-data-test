@@ -26,6 +26,7 @@ public class CustomerManagement {
 
         // Create customer
         Customer customer = Customer.builder()
+                .documentStorageEnabled(false)
                 .name(customerCreateDto.getName())
                 .surname(customerCreateDto.getSurname())
                 .build();
@@ -44,6 +45,18 @@ public class CustomerManagement {
         customer.edit(customerEditDto);
 
         return customer;
+    }
+
+    public Customer enableCustomerStorage(Customer customer) {
+        Assert.notNull(customer, "Customer must not be null!");
+
+        return customer.enableDocumentStorage();
+    }
+
+    public Customer disableCustomerStorage(Customer customer) {
+        Assert.notNull(customer, "Customer must not be null!");
+
+        return customer.disableDocumentStorage();
     }
 
     public Optional<Customer> findCustomerById(long customerId) {
