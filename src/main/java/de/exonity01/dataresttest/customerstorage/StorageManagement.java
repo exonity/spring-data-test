@@ -1,6 +1,8 @@
-package de.exonity01.dataresttest.storage;
+package de.exonity01.dataresttest.customerstorage;
 
 import de.exonity01.dataresttest.core.converters.ResourceToByteArrayConverter;
+import de.exonity01.dataresttest.customer.Customer;
+import de.exonity01.dataresttest.customer.CustomerManagement;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,15 +13,27 @@ import org.springframework.util.Assert;
 import javax.transaction.Transactional;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class StorageManagement {
+
+    private final @NonNull CustomerManagement customerManagement;
 
     private final @NonNull DocumentRepository documentRepository;
 
+    private final @NonNull StorageRepository storageRepository;
+
     private final @NonNull ResourceToByteArrayConverter resourceToByteArrayConverter;
 
-    @Transactional
+    public Storage create(long customerId) {
+        Storage storage = Storage.builder()
+                .customerId(customerId)
+                .build();
+
+        return storageRepository.save(storage);
+    }
+
     public Document createDocumentAndAddToStorage(
             Storage storage,
             String contentType,
@@ -31,13 +45,16 @@ public class StorageManagement {
         Assert.notNull(filename, "Filename must not be null!");
         Assert.notNull(contentType, "ContentType must not be null!");
 
-        // Check if the customer to which the storage belongs is enabled for using his storage.
-        if (!storage.getCustomer().isDocumentStorageEnabled()) {
+        // Check if the customer to which the customerstorage belongs is enabled for using an customerstorage.
+        Customer customer = customerManagement.findCustomerById(storage.getCustomerId())
+                .orElseThrow(() -> new CustomerNotFoundException());
+        if (!customer.isDocumentStorageEnabled()) {
             throw new CustomerDocumentStorageIsNotEnabledException();
         }
 
         byte[] content = resourceToByteArrayConverter.convert(fileResource);
 
+        // Create document
         Document document = documentRepository.save(Document.builder()
                 .attachedStorage(storage)
                 .content(content)
@@ -50,4 +67,6 @@ public class StorageManagement {
 
         return document;
     }
+
+
 }

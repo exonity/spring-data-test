@@ -1,9 +1,9 @@
-package de.exonity01.dataresttest.storage.web;
+package de.exonity01.dataresttest.customerstorage.web;
 
 import de.exonity01.dataresttest.core.converters.MultipartFileToResourceConverter;
-import de.exonity01.dataresttest.storage.Document;
-import de.exonity01.dataresttest.storage.Storage;
-import de.exonity01.dataresttest.storage.StorageManagement;
+import de.exonity01.dataresttest.customerstorage.Document;
+import de.exonity01.dataresttest.customerstorage.Storage;
+import de.exonity01.dataresttest.customerstorage.StorageManagement;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ public class StorageController {
 
     private final @NonNull MultipartFileToResourceConverter multipartFileToResourceConverter;
 
-    @Value("${storage.allowed-max-file-size}")
+    @Value("${storage.allowed_max_file_size}")
     private long STORAGE_ALLOWED_MAX_FILE_SIZE;
 
     @Value("${storage.allowed_content_types}")
@@ -58,4 +58,5 @@ public class StorageController {
                         multipartFileToResourceConverter.convert(documentContent),
                         documentContent.getOriginalFilename()));
     }
+
 }

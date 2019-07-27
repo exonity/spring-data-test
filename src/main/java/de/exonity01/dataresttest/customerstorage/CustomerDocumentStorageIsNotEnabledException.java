@@ -1,4 +1,4 @@
-package de.exonity01.dataresttest.storage;
+package de.exonity01.dataresttest.customerstorage;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

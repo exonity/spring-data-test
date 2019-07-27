@@ -1,4 +1,4 @@
-package de.exonity01.dataresttest.storage;
+package de.exonity01.dataresttest.customerstorage;
 
 
 import de.exonity01.dataresttest.core.BaseEntity;

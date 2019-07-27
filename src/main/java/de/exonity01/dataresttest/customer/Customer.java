@@ -1,5 +1,6 @@
 package de.exonity01.dataresttest.customer;
 
+import de.exonity01.dataresttest.core.BaseEntity;
 import de.exonity01.dataresttest.customer.web.CustomerEditDto;
 import lombok.*;
 import org.springframework.util.Assert;
@@ -14,7 +15,7 @@ import javax.validation.Valid;
 @Getter
 @Entity
 @Table(name = "customer")
-public class Customer {
+public class Customer extends BaseEntity {
 
     public boolean isDocumentStorageEnabled() {
         return true;
