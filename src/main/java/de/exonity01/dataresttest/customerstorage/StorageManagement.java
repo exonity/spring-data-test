@@ -49,7 +49,7 @@ public class StorageManagement {
         Customer customer = customerManagement.findCustomerById(storage.getCustomerId())
                 .orElseThrow(() -> new CustomerNotFoundException());
         if (!customer.isDocumentStorageEnabled()) {
-            throw new CustomerDocumentStorageIsNotEnabledException();
+            throw new CustomerDocumentStorageNotEnabledException();
         }
 
         byte[] content = resourceToByteArrayConverter.convert(fileResource);

@@ -4,5 +4,5 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-public class CustomerDocumentStorageNotEnoughSpace extends RuntimeException {
+public class CustomerDocumentStorageNotEnoughSpaceException extends RuntimeException {
 }
