@@ -25,7 +25,7 @@ public class StorageController {
 
     private final @NonNull MultipartFileToResourceConverter multipartFileToResourceConverter;
 
-    @Value("${storage.allowed_max_file_size}")
+    @Value("${storage.allowed-max-file-size}")
     private long STORAGE_ALLOWED_MAX_FILE_SIZE;
 
     @Value("${storage.allowed_content_types}")
@@ -49,6 +49,9 @@ public class StorageController {
             return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).build();
             // throw new InvalidMimeTypeException(documentContent.getContentType(), "Not allowed!");
         }
+
+        // Check if the customer is enabled
+
 
         return ResponseEntity
                 .ok()

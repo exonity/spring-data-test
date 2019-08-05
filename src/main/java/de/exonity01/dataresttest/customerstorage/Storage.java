@@ -36,7 +36,7 @@ public class Storage extends BaseEntity {
 
         // Check document space
         if (!checkEnoughSpaceToStoreDocument(document)) {
-            throw new CustomerDocumentStorageNotEnabledException();
+            throw new CustomerDocumentStorageNotEnoughSpaceException();
         }
 
         // Add document and update used space

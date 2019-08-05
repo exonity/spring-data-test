@@ -45,13 +45,6 @@ public class StorageManagement {
         Assert.notNull(filename, "Filename must not be null!");
         Assert.notNull(contentType, "ContentType must not be null!");
 
-        // Check if the customer to which the customerstorage belongs is enabled for using an customerstorage.
-        Customer customer = customerManagement.findCustomerById(storage.getCustomerId())
-                .orElseThrow(() -> new CustomerNotFoundException());
-        if (!customer.isDocumentStorageEnabled()) {
-            throw new CustomerDocumentStorageNotEnabledException();
-        }
-
         byte[] content = resourceToByteArrayConverter.convert(fileResource);
 
         // Create document
