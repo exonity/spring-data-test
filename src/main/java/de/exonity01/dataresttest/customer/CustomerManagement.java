@@ -38,27 +38,6 @@ public class CustomerManagement {
         return customer;
     }
 
-    public Customer edit(Customer customer, @Valid CustomerEditDto customerEditDto) {
-        Assert.notNull(customer, "Customer must not be null!");
-        Assert.notNull(customerEditDto, "CustomerEditDto must not be null!");
-
-        customer.edit(customerEditDto);
-
-        return customer;
-    }
-
-    public Customer enableCustomerStorage(Customer customer) {
-        Assert.notNull(customer, "Customer must not be null!");
-
-        return customer.enableDocumentStorage();
-    }
-
-    public Customer disableCustomerStorage(Customer customer) {
-        Assert.notNull(customer, "Customer must not be null!");
-
-        return customer.disableDocumentStorage();
-    }
-
     public Optional<Customer> findCustomerById(long customerId) {
         return customerRepository.findById(customerId);
     }
