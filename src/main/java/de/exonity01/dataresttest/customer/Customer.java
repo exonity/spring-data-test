@@ -18,8 +18,8 @@ import javax.validation.Valid;
 @Table(name = "customer")
 public class Customer extends BaseEntity {
 
-    @Column(name = "document_storage_enabled")
-    private boolean documentStorageEnabled;
+    @Column(name = "enabled")
+    private boolean enabled;
 
     @Column(name = "name")
     private String name;
@@ -36,14 +36,14 @@ public class Customer extends BaseEntity {
         return this;
     }
 
-    public Customer enableDocumentStorage() {
-        documentStorageEnabled = true;
+    public Customer enable() {
+        enabled = true;
 
         return this;
     }
 
-    public Customer disableDocumentStorage() {
-        documentStorageEnabled = false;
+    public Customer disable() {
+        enabled = false;
 
         return this;
     }
