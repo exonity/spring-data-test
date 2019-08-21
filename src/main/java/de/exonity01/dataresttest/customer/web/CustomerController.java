@@ -2,11 +2,13 @@ package de.exonity01.dataresttest.customer.web;
 
 import de.exonity01.dataresttest.core.web.BaseController;
 import de.exonity01.dataresttest.customer.Customer;
+import de.exonity01.dataresttest.customer.application.CreateCustomerService;
 import de.exonity01.dataresttest.customer.application.CustomerApplicationService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -17,7 +19,15 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequiredArgsConstructor
 public class CustomerController extends BaseController {
 
+    private final @NonNull CreateCustomerService createCustomerService;
+
     private final @NonNull CustomerApplicationService customerApplicationService;
+
+    @PostMapping("")
+    public ResponseEntity<Customer> create(@RequestBody @Valid CustomerCreateDto customerCreateDto) {
+        return ok(createCustomerService.createCustomer(customerCreateDto));
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Customer> edit(@PathVariable("id") Customer customer,
