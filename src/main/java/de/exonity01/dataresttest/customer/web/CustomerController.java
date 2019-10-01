@@ -7,10 +7,10 @@ import de.exonity01.dataresttest.customer.application.CustomerApplicationService
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
 import java.util.List;
 
 import static org.springframework.http.ResponseEntity.ok;
@@ -24,6 +24,8 @@ public class CustomerController extends BaseController {
     private final @NonNull CustomerApplicationService customerApplicationService;
 
     private final @NonNull CustomerManagement customerManagement;
+
+    private final @NonNull CustomerCreateDtoValidator customerCreateDtoValidator;
 
     @GetMapping("")
     public ResponseEntity<List<Customer>> getAll() {
@@ -58,6 +60,11 @@ public class CustomerController extends BaseController {
         assertNotNull(customer);
 
         return ok(customerApplicationService.disable(customer));
+    }
+
+    @InitBinder("transactionCreateRequest")
+    public void setupBinder(WebDataBinder binder) {
+        binder.addValidators(customerCreateDtoValidator);
     }
 
 }
