@@ -6,7 +6,6 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @MappedSuperclass
 @Getter
@@ -24,26 +23,6 @@ public abstract class BaseEntity {
 
     @Column(name = "updated_at")
     protected LocalDateTime updatedAt;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-
-        if (!(o instanceof BaseEntity)) {
-            return false;
-        }
-
-        BaseEntity other = (BaseEntity) o;
-
-        return (id != null && id.equals(other.getId()));
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }
 
     @PrePersist
     public void onPrePersist() {

@@ -9,7 +9,7 @@ import org.springframework.util.Assert;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.util.Optional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -28,14 +28,16 @@ public class CustomerManagement {
                 .enabled(true)
                 .name(customerCreateDto.getName())
                 .surname(customerCreateDto.getSurname())
+                .isPrivate(customerCreateDto.getIsPrivate())
+                .companyName(!customerCreateDto.getIsPrivate() ? customerCreateDto.getCompanyName() : null)
                 .build();
         customerRepository.save(customer);
 
         return customer;
     }
 
-    public Optional<Customer> findCustomerById(long customerId) {
-        return customerRepository.findById(customerId);
+    public List<Customer> findAll() {
+        return customerRepository.findAll();
     }
 
 }

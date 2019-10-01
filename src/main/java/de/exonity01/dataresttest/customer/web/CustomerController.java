@@ -2,23 +2,33 @@ package de.exonity01.dataresttest.customer.web;
 
 import de.exonity01.dataresttest.core.web.BaseController;
 import de.exonity01.dataresttest.customer.Customer;
+import de.exonity01.dataresttest.customer.CustomerManagement;
 import de.exonity01.dataresttest.customer.application.CustomerApplicationService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import java.util.List;
+
 import static org.springframework.http.ResponseEntity.ok;
 
+
+@RestController
 @RequiredArgsConstructor
+@RequestMapping("/customer")
 public class CustomerController extends BaseController {
 
     private final @NonNull CustomerApplicationService customerApplicationService;
+
+    private final @NonNull CustomerManagement customerManagement;
+
+    @GetMapping("")
+    public ResponseEntity<List<Customer>> getAll() {
+        return ok(customerManagement.findAll());
+    }
 
     @PostMapping("")
     public ResponseEntity<Customer> create(@RequestBody @Valid CustomerCreateDto customerCreateDto) {

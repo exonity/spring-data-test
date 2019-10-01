@@ -27,11 +27,23 @@ public class Customer extends BaseEntity {
     @Column(name = "surname")
     private String surname;
 
+    @Column(name = "is_private")
+    private boolean isPrivate;
+
+    @Column(name = "company_name")
+    private String companyName;
+
+
     public Customer edit(@Valid CustomerEditDto customerEditDto) {
         Assert.notNull(customerEditDto, "CustomerEditDto must not be null!");
 
+        isPrivate = customerEditDto.getIsPrivate();
         name = customerEditDto.getName();
         surname = customerEditDto.getSurname();
+
+        if (!customerEditDto.getIsPrivate()) {
+            companyName = customerEditDto.getCompanyName();
+        }
 
         return this;
     }
