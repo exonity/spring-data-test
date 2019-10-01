@@ -2,7 +2,6 @@ package de.exonity01.dataresttest.customer.web;
 
 import de.exonity01.dataresttest.core.web.BaseController;
 import de.exonity01.dataresttest.customer.Customer;
-import de.exonity01.dataresttest.customer.application.CreateCustomerService;
 import de.exonity01.dataresttest.customer.application.CustomerApplicationService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -19,13 +18,11 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequiredArgsConstructor
 public class CustomerController extends BaseController {
 
-    private final @NonNull CreateCustomerService createCustomerService;
-
     private final @NonNull CustomerApplicationService customerApplicationService;
 
     @PostMapping("")
     public ResponseEntity<Customer> create(@RequestBody @Valid CustomerCreateDto customerCreateDto) {
-        return ok(createCustomerService.createCustomer(customerCreateDto));
+        return ok(customerApplicationService.createCustomer(customerCreateDto));
     }
 
 
