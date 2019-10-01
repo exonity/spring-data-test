@@ -1,11 +1,9 @@
 package de.exonity01.dataresttest.customer.web;
 
-import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-@Component
 public class CustomerCreateDtoValidator implements Validator {
 
     @Override
@@ -18,7 +16,7 @@ public class CustomerCreateDtoValidator implements Validator {
         CustomerCreateDto customerCreateDto = (CustomerCreateDto) target;
 
         if (!customerCreateDto.getIsPrivate()) {
-            ValidationUtils.rejectIfEmpty(errors, "companyName", "companyName.required");
+            ValidationUtils.rejectIfEmpty(errors, "companyName", "NotNull");
         }
     }
 

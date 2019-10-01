@@ -25,7 +25,10 @@ public class CustomerController extends BaseController {
 
     private final @NonNull CustomerManagement customerManagement;
 
-    private final @NonNull CustomerCreateDtoValidator customerCreateDtoValidator;
+    @InitBinder("customerCreateDto")
+    public void setupBinder(WebDataBinder binder) {
+        binder.addValidators(new CustomerCreateDtoValidator());
+    }
 
     @GetMapping("")
     public ResponseEntity<List<Customer>> getAll() {
@@ -60,11 +63,6 @@ public class CustomerController extends BaseController {
         assertNotNull(customer);
 
         return ok(customerApplicationService.disable(customer));
-    }
-
-    @InitBinder("transactionCreateRequest")
-    public void setupBinder(WebDataBinder binder) {
-        binder.addValidators(customerCreateDtoValidator);
     }
 
 }
