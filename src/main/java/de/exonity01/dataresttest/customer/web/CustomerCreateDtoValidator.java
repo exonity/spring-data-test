@@ -15,9 +15,9 @@ public class CustomerCreateDtoValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        CustomerCreateDto request = (CustomerCreateDto) target;
+        CustomerCreateDto customerCreateDto = (CustomerCreateDto) target;
 
-        if (!request.getIsPrivate()) {
+        if (!customerCreateDto.getIsPrivate()) {
             ValidationUtils.rejectIfEmpty(errors, "companyName", "companyName.required");
         }
     }
