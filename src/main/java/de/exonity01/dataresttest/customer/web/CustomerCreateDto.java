@@ -9,17 +9,24 @@ import javax.validation.constraints.Size;
 public class CustomerCreateDto {
 
     @NotNull
-    Boolean isPrivate;
+    private Boolean isPrivate;
 
     @NotNull
     @Size(min = 3, max = 255)
-    String name;
+    private String name;
 
     @NotNull
     @Size(min = 3, max = 255)
-    String surname;
+    private String surname;
 
     @Size(min = 3, max = 255)
-    String companyName;
+    private String companyName;
+
+    @NotNull
+    private String aBc;
+
+    @NotNull
+    private String abc;
+
 
 }
