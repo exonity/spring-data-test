@@ -18,8 +18,6 @@ public class CustomerManagement {
 
     private final @NonNull CustomerRepository customerRepository;
 
-    private final @NonNull ApplicationEventPublisher applicationEventPublisher;
-
     public Customer create(@Valid CustomerCreateDto customerCreateDto) {
         Assert.notNull(customerCreateDto, "CustomerCreateDto must not be null!");
 

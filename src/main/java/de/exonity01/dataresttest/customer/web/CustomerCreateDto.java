@@ -22,11 +22,4 @@ public class CustomerCreateDto {
     @Size(min = 3, max = 255)
     private String companyName;
 
-    @NotNull
-    private String aBc;
-
-    @NotNull
-    private String abc;
-
-
 }

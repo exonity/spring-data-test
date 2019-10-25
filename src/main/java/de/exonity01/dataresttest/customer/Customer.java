@@ -36,6 +36,7 @@ public class Customer extends BaseEntity {
 
     public Customer edit(@Valid CustomerEditDto customerEditDto) {
         Assert.notNull(customerEditDto, "CustomerEditDto must not be null!");
+        Assert.state(enabled == true, "State must be enabled!");
 
         isPrivate = customerEditDto.getIsPrivate();
         name = customerEditDto.getName();

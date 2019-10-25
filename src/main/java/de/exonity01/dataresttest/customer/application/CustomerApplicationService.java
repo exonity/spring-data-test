@@ -2,6 +2,7 @@ package de.exonity01.dataresttest.customer.application;
 
 import de.exonity01.dataresttest.customer.Customer;
 import de.exonity01.dataresttest.customer.CustomerManagement;
+import de.exonity01.dataresttest.customer.exception.CustomerNotEnabledException;
 import de.exonity01.dataresttest.customer.web.CustomerCreateDto;
 import de.exonity01.dataresttest.customer.web.CustomerEditDto;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,11 @@ public class CustomerApplicationService {
     public Customer edit(Customer customer, @Valid CustomerEditDto customerEditDto) {
         Assert.notNull(customer, "Customer must not be null!");
         Assert.notNull(customerEditDto, "CustomerEditDto must not be null!");
+
+        // Precondition checks
+        if (!customer.isEnabled()) {
+            throw new CustomerNotEnabledException(customer.getId());
+        }
 
         customer.edit(customerEditDto);
 

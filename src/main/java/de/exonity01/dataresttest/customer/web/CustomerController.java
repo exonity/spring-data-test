@@ -7,16 +7,12 @@ import de.exonity01.dataresttest.customer.application.CustomerApplicationService
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Errors;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.springframework.http.ResponseEntity.ok;
-
 
 @RestController
 @RequiredArgsConstructor
@@ -27,11 +23,6 @@ public class CustomerController extends BaseController {
 
     private final @NonNull CustomerManagement customerManagement;
 
-    /*@InitBinder("customerCreateDto")
-    public void setupBinder(WebDataBinder binder) {
-        binder.addValidators(new CustomerCreateDtoValidator());
-    }*/
-
     @GetMapping("")
     public ResponseEntity<List<Customer>> getAll() {
         return ok(customerManagement.findAll());
@@ -39,24 +30,12 @@ public class CustomerController extends BaseController {
 
     @PostMapping("")
     public ResponseEntity<Customer> create(@RequestBody @Valid CustomerCreateDto customerCreateDto) {
-        /*if (!customerCreateDto.getIsPrivate()) {
-            if (customerCreateDto.getCompanyName() != null) {
-                errors.reject("companyName");
-            }
-        }
-        if (errors.hasErrors()) {
-            throw new ValidationException(createErrorString()errors);
-        }*/
-
         return ok(customerApplicationService.createCustomer(customerCreateDto));
     }
-
 
     @PutMapping("/{id}")
     public ResponseEntity<Customer> edit(@PathVariable("id") Customer customer,
                                          @RequestBody @Valid CustomerEditDto customerEditDto) {
-        assertNotNull(customer);
-
         return ok(customerApplicationService.edit(
                 customer,
                 customerEditDto));
@@ -64,20 +43,12 @@ public class CustomerController extends BaseController {
 
     @PutMapping("/{id}/enable")
     public ResponseEntity<Customer> enableCustomer(@PathVariable("id") Customer customer) {
-        assertNotNull(customer);
-
         return ok(customerApplicationService.enable(customer));
     }
 
     @PutMapping("/{id}/disable")
     public ResponseEntity<Customer> disableCustomerStorage(@PathVariable("id") Customer customer) {
-        assertNotNull(customer);
-
         return ok(customerApplicationService.disable(customer));
-    }
-
-    private String createErrorString(Errors errors) {
-        return errors.getAllErrors().stream().map(ObjectError::toString).collect(Collectors.joining(","));
     }
 
 }
