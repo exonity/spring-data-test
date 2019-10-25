@@ -33,7 +33,6 @@ public class Customer extends BaseEntity {
     @Column(name = "company_name")
     private String companyName;
 
-
     public Customer edit(@Valid CustomerEditDto customerEditDto) {
         Assert.notNull(customerEditDto, "CustomerEditDto must not be null!");
         Assert.state(enabled == true, "State must be enabled!");
