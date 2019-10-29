@@ -6,6 +6,7 @@ import de.exonity01.dataresttest.customer.Customer;
 import de.exonity01.dataresttest.customer.CustomerManagement;
 import de.exonity01.dataresttest.customer.web.CustomerEditDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -27,6 +28,7 @@ public class CustomerApplicationService {
         // Precondition checks
         if (!customer.isEnabled()) {
             throw new CustomException(
+                    HttpStatus.UNPROCESSABLE_ENTITY,
                     InternalErrorCode.CustomerNotEnabled,
                     "Customer id=" + customer.getId() + " is not enabled!");
         }

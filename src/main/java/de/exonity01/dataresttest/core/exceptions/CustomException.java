@@ -1,12 +1,13 @@
 package de.exonity01.dataresttest.core.exceptions;
 
+import com.mysema.commons.lang.Assert;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Getter
-@ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
 public class CustomException extends RuntimeException {
+
+    private HttpStatus httpStatus;
 
     private InternalErrorCode internalErrorCode = InternalErrorCode.Undefined;
 
@@ -14,22 +15,34 @@ public class CustomException extends RuntimeException {
 
     private Throwable cause;
 
-    public CustomException(InternalErrorCode internalErrorCode) {
+    public CustomException(HttpStatus httpStatus, InternalErrorCode internalErrorCode) {
+        Assert.notNull(httpStatus, "httpStatus must not be null!");
+        Assert.notNull(internalErrorCode, "internalErrorCode must not be null!");
+
         this.internalErrorCode = internalErrorCode;
     }
 
-    public CustomException(InternalErrorCode internalErrorCode, String message) {
+    public CustomException(HttpStatus httpStatus, InternalErrorCode internalErrorCode, String message) {
+        Assert.notNull(httpStatus, "httpStatus must not be null!");
+        Assert.notNull(internalErrorCode, "internalErrorCode must not be null!");
+
         this.internalErrorCode = internalErrorCode;
         this.message = message;
     }
 
-    public CustomException(InternalErrorCode internalErrorCode, String message, Throwable cause) {
+    public CustomException(HttpStatus httpStatus, InternalErrorCode internalErrorCode, String message, Throwable cause) {
+        Assert.notNull(httpStatus, "httpStatus must not be null!");
+        Assert.notNull(internalErrorCode, "internalErrorCode must not be null!");
+
         this.internalErrorCode = internalErrorCode;
         this.message = message;
         this.cause = cause;
     }
 
-    public CustomException(InternalErrorCode internalErrorCode, Throwable cause) {
+    public CustomException(HttpStatus httpStatus, InternalErrorCode internalErrorCode, Throwable cause) {
+        Assert.notNull(httpStatus, "httpStatus must not be null!");
+        Assert.notNull(internalErrorCode, "internalErrorCode must not be null!");
+
         this.internalErrorCode = internalErrorCode;
         this.cause = cause;
     }
