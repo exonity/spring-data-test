@@ -30,7 +30,7 @@ public class CustomerController extends BaseController {
 
     @PostMapping("")
     public ResponseEntity<Customer> create(@RequestBody @Valid CustomerCreateDto customerCreateDto) {
-        return ok(customerApplicationService.createCustomer(customerCreateDto));
+        return ok(customerManagement.create(customerCreateDto));
     }
 
     @PutMapping("/{id}")
